@@ -1,0 +1,19 @@
+spring: 
+  api: 
+    investmentaccount: 
+      context-path: /InvestmentAccount/Initiate
+      hosturl: /v1/bian-3/core/wealth/investmentplan/10.0.0/
+      jolt-filename: InvestmentAccount490497-jolt.json
+    investmentportfoliomanagement: 
+      context-path: /InvestmentPortfolioManagement/{investmentportfoliomanagementId}/Retrieve
+      hosturl: /v1/bian-3/core/wealth/investmentplan/10.0.0/
+      jolt-filename: InvestmentPortfolioManagement810972-jolt.json
+    regulatorycompliance: 
+      context-path: /RegulatoryCompliance/Evaluate
+      hosturl: /v1/bian-3/core/wealth/investmentplan/10.0.0/
+      jolt-filename: RegulatoryCompliance202409-jolt.json
+  datasource: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ${mysql_pwd}
+    url: jdbc:mysql://${mysql_url}:3306/camunda
+    username: ${mysql_user}

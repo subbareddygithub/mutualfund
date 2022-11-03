@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+    <bpmn:process id="mutualfund" name="mutualfund" isExecutable="true">
+
+        <bpmn:startEvent id="id_a18c0c68-c3d8-42b5-978a-201cca453c2a">
+            <bpmn:outgoing>id_082dfb94-8c67-4d86-9663-d34a7945c47d</bpmn:outgoing>
+        </bpmn:startEvent>
+
+        <bpmn:endEvent id="id_8383be4a-39b3-412e-ae01-e2f8d0eb8c18">
+            <bpmn:incoming>id_c44681df-a7ba-4fbf-b8a5-4015e70862c4</bpmn:incoming>
+        </bpmn:endEvent>
+
+        <bpmn:serviceTask id="id_3d698c44-2ec6-4e3b-af9d-fe7fc4fe5c92" name="InvestmentPortfolioManagement" camunda:asyncBefore="true" camunda:class="com.org.ibm.adapters.Investmentportfolio">
+            <bpmn:incoming>id_082dfb94-8c67-4d86-9663-d34a7945c47d</bpmn:incoming>
+            <bpmn:outgoing>id_145745bf-b405-43f6-b8e0-42e8b2b2a072</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:serviceTask id="id_13a1a062-4933-4dfb-86f5-fbbce5f35ab6" name="InvestmentAccount" camunda:asyncBefore="true" camunda:class="com.org.ibm.adapters.Investmentaccount">
+            <bpmn:incoming>id_145745bf-b405-43f6-b8e0-42e8b2b2a072</bpmn:incoming>
+            <bpmn:outgoing>id_48a2bc10-abb9-4c1f-9fc7-73bb887969d3</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:serviceTask id="id_2ca5ffc4-64df-4ef5-9e08-c490ba7274c4" name="RegulatoryCompliance" camunda:asyncBefore="true" camunda:class="com.org.ibm.adapters.Regulatorycompliance">
+            <bpmn:incoming>id_48a2bc10-abb9-4c1f-9fc7-73bb887969d3</bpmn:incoming>
+            <bpmn:outgoing>id_c44681df-a7ba-4fbf-b8a5-4015e70862c4</bpmn:outgoing>
+        </bpmn:serviceTask>
+
+
+
+
+
+
+        <bpmn:sequenceFlow id="id_082dfb94-8c67-4d86-9663-d34a7945c47d" sourceRef="id_a18c0c68-c3d8-42b5-978a-201cca453c2a" targetRef="id_3d698c44-2ec6-4e3b-af9d-fe7fc4fe5c92"/>
+        <bpmn:sequenceFlow id="id_c44681df-a7ba-4fbf-b8a5-4015e70862c4" sourceRef="id_2ca5ffc4-64df-4ef5-9e08-c490ba7274c4" targetRef="id_8383be4a-39b3-412e-ae01-e2f8d0eb8c18"/>
+        <bpmn:sequenceFlow id="id_145745bf-b405-43f6-b8e0-42e8b2b2a072" sourceRef="id_3d698c44-2ec6-4e3b-af9d-fe7fc4fe5c92" targetRef="id_13a1a062-4933-4dfb-86f5-fbbce5f35ab6"/>
+        <bpmn:sequenceFlow id="id_48a2bc10-abb9-4c1f-9fc7-73bb887969d3" sourceRef="id_13a1a062-4933-4dfb-86f5-fbbce5f35ab6" targetRef="id_2ca5ffc4-64df-4ef5-9e08-c490ba7274c4"/>
+
+        <bpmn:subProcess id="SubProcess_10gul9f" triggeredByEvent="true">
+            <bpmn:startEvent id="StartEvent_1vroe4j">
+                <bpmn:outgoing>SequenceFlow_0v8nfh9</bpmn:outgoing>
+                <bpmn:errorEventDefinition id="ErrorEventDefinition_0s24ktu" errorRef="Error_1dml388" />
+            </bpmn:startEvent>
+            <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_0wrqa3o">
+                <bpmn:incoming>SequenceFlow_0v8nfh9</bpmn:incoming>
+                <bpmn:outgoing>SequenceFlow_1vuwcqy</bpmn:outgoing>
+                <bpmn:compensateEventDefinition id="CompensateEventDefinition_0de6hep" />
+            </bpmn:intermediateThrowEvent>
+            <bpmn:endEvent id="EndEvent_0unn4fa">
+                <bpmn:incoming>SequenceFlow_1vuwcqy</bpmn:incoming>
+            </bpmn:endEvent>
+            <bpmn:sequenceFlow id="SequenceFlow_1vuwcqy" sourceRef="IntermediateThrowEvent_0wrqa3o" targetRef="EndEvent_0unn4fa" />
+            <bpmn:sequenceFlow id="SequenceFlow_0v8nfh9" sourceRef="StartEvent_1vroe4j" targetRef="IntermediateThrowEvent_0wrqa3o" />
+        </bpmn:subProcess>
+
+
+    </bpmn:process>
+    <bpmn:error id="Error_1dml388" errorCode="java.lang.Throwable" />
+
+    <bpmndi:BPMNDiagram id="BPMDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="mutualfund">
+            <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="id_a18c0c68-c3d8-42b5-978a-201cca453c2a">
+                <dc:Bounds x="59" y="43" width="36" height="36" />
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="ServiceTask_id_3d698c44-2ec6-4e3b-af9d-fe7fc4fe5c92" bpmnElement="id_3d698c44-2ec6-4e3b-af9d-fe7fc4fe5c92">
+                <dc:Bounds x="257" y="23" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="ServiceTask_id_13a1a062-4933-4dfb-86f5-fbbce5f35ab6" bpmnElement="id_13a1a062-4933-4dfb-86f5-fbbce5f35ab6">
+                <dc:Bounds x="844" y="60" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="ServiceTask_id_2ca5ffc4-64df-4ef5-9e08-c490ba7274c4" bpmnElement="id_2ca5ffc4-64df-4ef5-9e08-c490ba7274c4">
+                <dc:Bounds x="379" y="223" width="100" height="80" />
+            </bpmndi:BPMNShape>
+
+
+
+
+
+            <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="id_8383be4a-39b3-412e-ae01-e2f8d0eb8c18">
+                <dc:Bounds x="726" y="262" width="36" height="36" />
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNEdge id="SequenceFlow_id_082dfb94-8c67-4d86-9663-d34a7945c47d" bpmnElement="id_082dfb94-8c67-4d86-9663-d34a7945c47d">
+                <di:waypoint x="59" y="43" />
+                <di:waypoint x="257" y="23" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="SequenceFlow_id_c44681df-a7ba-4fbf-b8a5-4015e70862c4" bpmnElement="id_c44681df-a7ba-4fbf-b8a5-4015e70862c4">
+                <di:waypoint x="379" y="223" />
+                <di:waypoint x="726" y="262" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="SequenceFlow_id_145745bf-b405-43f6-b8e0-42e8b2b2a072" bpmnElement="id_145745bf-b405-43f6-b8e0-42e8b2b2a072">
+                <di:waypoint x="257" y="23" />
+                <di:waypoint x="844" y="60" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="SequenceFlow_id_48a2bc10-abb9-4c1f-9fc7-73bb887969d3" bpmnElement="id_48a2bc10-abb9-4c1f-9fc7-73bb887969d3">
+                <di:waypoint x="844" y="60" />
+                <di:waypoint x="379" y="223" />
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNShape id="SubProcess_10gul9f_di" bpmnElement="SubProcess_10gul9f" isExpanded="true">
+                <dc:Bounds x="18" y="424" width="315" height="165" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="StartEvent_1vroe4j_di" bpmnElement="StartEvent_1vroe4j">
+                <dc:Bounds x="68" y="471" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="IntermediateThrowEvent_0wrqa3o_di" bpmnElement="IntermediateThrowEvent_0wrqa3o">
+                <dc:Bounds x="154" y="471" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="EndEvent_0unn4fa_di" bpmnElement="EndEvent_0unn4fa">
+                <dc:Bounds x="240" y="471" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="SequenceFlow_1vuwcqy_di" bpmnElement="SequenceFlow_1vuwcqy">
+                <di:waypoint x="190" y="489" />
+                <di:waypoint x="240" y="489" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="SequenceFlow_0v8nfh9_di" bpmnElement="SequenceFlow_0v8nfh9">
+                <di:waypoint x="104" y="489" />
+                <di:waypoint x="154" y="489" />
+            </bpmndi:BPMNEdge>
+
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+
+
+</bpmn:definitions>
